@@ -3,7 +3,6 @@
 window.displayTickerAlert1 = () => {
 
     var dockManager = document.getElementById('dockManager');
-    console.log(dockManager);
     dockManager.layout = {
         rootPane: {
             type: "splitPane",
@@ -44,13 +43,7 @@ window.displayTickerAlert1 = () => {
 window.settingDataGrid = (jsonData) => {
 
     var dataGrid = document.getElementsByTagName('igc-data-grid')[0];
-    console.log(dataGrid);
-
     var json = JSON.parse(jsonData);
-    console.log(json);
-
-    //dataGrid.notifyClearItems();
-
     dataGrid.dataSource = json;
 };
 

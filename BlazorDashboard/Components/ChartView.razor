@@ -46,8 +46,7 @@
     </div>
 
     <div class="dataChartStyle">
-        @if (DataTable != null)
-        {
+
         <IgbDataChart Height="100%" Width="100%"
                    TitleTopMargin="10"
                    IsHorizontalZoomEnabled="true"
@@ -149,7 +148,7 @@
 
 
         </IgbDataChart>
-        }
+
         </div>
 </div>
 
@@ -192,7 +191,6 @@
         set
         {
             _Chart = value;
-            SeriesType = "Column";
             StateHasChanged();
         }
     }
@@ -235,8 +233,6 @@
     private void settingData() { 
         if(DataTable != null)
         {
-            var jsonData = JsonConvert.SerializeObject(DataTable);
-            JS.InvokeVoidAsync("settingDataSourceOfDataChart", jsonData);
 
             List<string> newColumnsY = new List<string>();
             foreach(DataColumn column in DataTable.Columns)
@@ -255,31 +251,39 @@
                 newColumnsX.Add(column.ColumnName);
             }
 
-            this.ColumnsY = newColumnsX;
+            this.ColumnsY = newColumnsY;
             this.ColumnsX = newColumnsX;
-            //if(string.IsNullOrEmpty(this.XColumn)){
-            //    if (newColumnsX.Count > 0)
-            //    {
-            //        this.XColumn = newColumnsX[0];
-            //    }
-            //}
+            if(string.IsNullOrEmpty(this.XColumn)){
+                if (newColumnsX.Count > 0)
+                {
+                    this.XColumn = newColumnsX[0];
+                }
+            }
 
-            //if (string.IsNullOrEmpty(this.YColumn))
-            //{
-            //    if(newColumnsY.Count > 0)
-            //    {
-            //        if(newColumnsY[0] == newColumnsX[0]
-            //            && newColumnsY.Count > 1)
-            //        {
-            //            this.YColumn = newColumnsY[1];
-            //        }
-            //        else
-            //        {
-            //            this.YColumn = newColumnsY[0];
-            //        }
-            //    }
-            //}
-
+            if (string.IsNullOrEmpty(this.YColumn))
+            {
+                if(newColumnsY.Count > 0)
+                {
+                    if(newColumnsY[0] == newColumnsX[0]
+                        && newColumnsY.Count > 1)
+                    {
+                        this.YColumn = newColumnsY[1];
+                    }
+                    else
+                    {
+                        this.YColumn = newColumnsY[0];
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(SeriesType))
+            {
+                SeriesType = "";
+                StateHasChanged();
+                SeriesType = "Column";
+            }
+            
+            var jsonData = JsonConvert.SerializeObject(DataTable);
+            JS.InvokeVoidAsync("settingDataSourceOfDataChart", jsonData);
 
             StateHasChanged();
         }
