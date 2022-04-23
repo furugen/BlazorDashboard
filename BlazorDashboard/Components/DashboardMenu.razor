@@ -87,7 +87,6 @@
 
     private async void LoadFiles(InputFileChangeEventArgs e)
     {
-        Items.CollectionChanged += CollectionChangeEvent;
         isLoading = true;
         loadedFiles.Clear();
 
@@ -115,9 +114,6 @@
                 Console.WriteLine(ex.StackTrace);
             }
         }
-
-        //var ms = new MemoryStream(loadedFiles[0].Content);
-        //Workbook wb2 = Workbook.Load(ms);
 
         //DashboardService.AddDashboardItem(loadedFiles[0].FileName,wb2);
         DashboardService.AddDashboardItemAsync(loadedFiles[0].FileName,loadedFiles[0].Content,
