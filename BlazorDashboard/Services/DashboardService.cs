@@ -36,13 +36,16 @@ namespace BlazorDashboard.Services
 
         public async void AddDashboardItemAsync(string fileName, byte[] fileContent, AddDashboardItemMethod delegeteMethod)
         {
-            await AddDashboardItem(fileName, fileContent, delegeteMethod);
+            await Task.Delay(1500);
+            Task task = Task.Run(() =>
+            {
+                AddDashboardItem(fileName, fileContent, delegeteMethod);
+            });
         }
 
-        private async Task<string> AddDashboardItem(string fileName, byte[] fileContent, AddDashboardItemMethod delegeteMethod)
+        private void AddDashboardItem(string fileName, byte[] fileContent, AddDashboardItemMethod delegeteMethod)
         {
             DashboardItem item = new DashboardItem();
-            item.ID = "123";
             item.Title = fileName;
 
             var ms = new MemoryStream(fileContent);
@@ -50,14 +53,12 @@ namespace BlazorDashboard.Services
 
             item.Workbook = wb;
             item.DataTable = ConvertWSToDT(wb.Worksheets[0]);
-
-            await Task.Delay(1000);
+ 
 
             Items.Add(item);
 
             delegeteMethod(item);
 
-            return "Success";
         }
 
 
