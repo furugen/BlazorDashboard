@@ -1,6 +1,6 @@
 ﻿
 // Dockmanagerの設定
-window.displayTickerAlert1 = () => {
+window.settingDockManager = () => {
 
     var dockManager = document.getElementById('dockManager');
     dockManager.layout = {
